@@ -1,15 +1,144 @@
 <!DOCTYPE html>
 <html>
   <body>
-    <canvas
-      id="myCanvas"
-      width="100vw"
-      height="100vh"
-      style="border: 1px solid #d3d3d3; background-color: aqua"
+    <div id="controls" style="border: 1px solid #d3d3d3; text-align: center">
+      <p>Controls</p>
+      <!-- <button id="generate" type="button">Generate</button> -->
+
+      <form id="generation_config">
+        <div
+          id="dungeon_controls"
+          style="
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #d3d3d3;
+          "
+        >
+          <p>Dungeon Configs</p>
+          <div
+            id="dungeon_parameters"
+            style="
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <label for="rows">rows</label>
+            <input type="text" id="rows" name="rows" value="50" /><br /><br />
+            <label for="cols">cols</label>
+            <input type="text" id="cols" name="cols" value="50" /><br /><br />
+            <label for="size">grid size</label>
+            <input type="text" id="size" name="size" value="8" /><br /><br />
+          </div>
+        </div>
+
+        <div
+          id="room_controls"
+          style="
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #d3d3d3;
+          "
+        >
+          <p>Room Configs</p>
+          <div
+            id="room_parameters"
+            style="
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <label for="min_rooms">min rooms</label>
+            <input
+              type="text"
+              id="min_rooms"
+              name="min_rooms"
+              value="5"
+            /><br /><br />
+            <label for="max_rooms">max rooms</label>
+            <input
+              type="text"
+              id="max_rooms"
+              name="max_rooms"
+              value="10"
+            /><br /><br />
+            <label for="min_width">min width</label>
+            <input
+              type="text"
+              id="min_width"
+              name="min_width"
+              value="5"
+            /><br /><br />
+            <label for="max_width">max width</label>
+            <input
+              type="text"
+              id="max_width"
+              name="max_width"
+              value="10"
+            /><br /><br />
+            <label for="min_height">min height</label>
+            <input
+              type="text"
+              id="min_height"
+              name="min_height"
+              value="5"
+            /><br /><br />
+            <label for="max_height">max height</label>
+            <input
+              type="text"
+              id="max_height"
+              name="max_height"
+              value="10"
+            /><br /><br />
+          </div>
+        </div>
+
+        <div
+          id="hallway_controls"
+          style="
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #d3d3d3;
+          "
+        >
+          <p>Hallway Configs</p>
+          <div
+            id="hallway_parameters"
+            style="
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <label for="fname">min</label>
+            <input type="text" id="fname" name="fname" /><br /><br />
+            <label for="fname">max</label>
+            <input type="text" id="fname" name="fname" /><br /><br />
+          </div>
+        </div>
+
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
+    <div
+      id="dungeon"
+      style="display: flex; align-items: center; justify-content: center"
     >
-      Your browser does not support the HTML canvas tag.</canvas
-    >
-    <script src="script.js"></script>
+      <canvas
+        id="myCanvas"
+        width="100vw"
+        height="100vh"
+        style="border: 1px solid #d3d3d3; background-color: aqua; margin: auto"
+      >
+        Your browser does not support the HTML canvas tag.</canvas
+      >
+    </div>
+
+    <script type="module" src="script.js"></script>
     <script></script>
   </body>
 </html>
