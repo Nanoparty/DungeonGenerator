@@ -1,0 +1,13 @@
+Dungeon Algorithms:
+
+Source: https://www.youtube.com/watch?v=TlLIOgWYVpI&t=48s&ab_channel=RoguelikeCelebration
+
+-> Simple Room Placement
+-> Binary Search Partitioning
+-> Cellular Automata
+-> Drunkards Walk
+-> Diffusion Limited Aggregation
+-> Voronoi Diagrams
+-> Perlin Noise
+-> DLA for Erosion
+-> Djikstra's Maps  
