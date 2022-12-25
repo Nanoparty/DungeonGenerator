@@ -1,9 +1,3 @@
-const Tile = {
-  Wall: 0,
-  Floor: 1,
-  Void: 2,
-};
-
 var Map = [];
 
 function createMap(rows, cols, size) {
@@ -52,23 +46,23 @@ var drawGrid = function (w, h, id, size) {
   ctx.canvas.height = h;
 
   var data = `<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"> \
-          <defs> \
-              <pattern id="smallGrid" width="${size}" height="${size}" patternUnits="userSpaceOnUse"> \
-                  <path d="M ${size} 0 L 0 0 0 ${size}" fill="none" stroke="gray" stroke-width="0.5" /> \
-              </pattern> \
-              <pattern id="grid" width="${size * 10}" height="${
+            <defs> \
+                <pattern id="smallGrid" width="${size}" height="${size}" patternUnits="userSpaceOnUse"> \
+                    <path d="M ${size} 0 L 0 0 0 ${size}" fill="none" stroke="gray" stroke-width="0.5" /> \
+                </pattern> \
+                <pattern id="grid" width="${size * 10}" height="${
     size * 10
   }" patternUnits="userSpaceOnUse"> \
-                  <rect width="${size * 10}" height="${
+                    <rect width="${size * 10}" height="${
     size * 10
   }" fill="url(#smallGrid)" /> \
-                  <path d="M ${size * 10} 0 L 0 0 0 ${
+                    <path d="M ${size * 10} 0 L 0 0 0 ${
     size * 10
   }" fill="none" stroke="gray" stroke-width="1" /> \
-              </pattern> \
-          </defs> \
-          <rect width="100%" height="100%" fill="url(#smallGrid)" /> \
-      </svg>`;
+                </pattern> \
+            </defs> \
+            <rect width="100%" height="100%" fill="url(#smallGrid)" /> \
+        </svg>`;
 
   var DOMURL = window.URL || window.webkitURL || window;
 
@@ -114,11 +108,11 @@ async function Generate(
       row: row,
     });
 
-    drawRoom(row, col, roomWidth, roomHeight, size, "#000000");
+    drawRoom(row, col, roomWidth, roomHeight, size, "#444444");
     await new Promise((resolve) => setTimeout(resolve, 100));
   }
 
-  GenerateHallways(rooms, size, "#000000");
+  GenerateHallways(rooms, size, "#AAAAAA");
 }
 
 function drawRoom(row, col, width, height, size, color) {
@@ -293,18 +287,33 @@ function drawRect(row, col, size, color) {
   }
 }
 
-require("./binary_partitioning.js");
+// document.getElementById("generation_config").onsubmit = function () {
+//   event.preventDefault();
 
-document.getElementById("generation_config").onsubmit = function () {
-  event.preventDefault();
+//   var method = document.getElementById("method").value;
+//   console.log(method);
+//   //   if (method != "binary_partitioning") return;
 
-  var method = document.getElementById("method").value;
-  console.log(method);
+//   //   var rows = parseInt(document.getElementById("rows").value);
+//   //   var cols = parseInt(document.getElementById("cols").value);
+//   //   var size = parseInt(document.getElementById("size").value);
+//   //   createMap(rows, cols, size);
+// };
 
-  if (method != "random_placement") return;
+// function use_bp() {
+//   var rows = parseInt(document.getElementById("rows").value);
+//   var cols = parseInt(document.getElementById("cols").value);
+//   var size = parseInt(document.getElementById("size").value);
+//   createMap(rows, cols, size);
+// }
 
-  var rows = parseInt(document.getElementById("rows").value);
-  var cols = parseInt(document.getElementById("cols").value);
-  var size = parseInt(document.getElementById("size").value);
-  createMap(rows, cols, size);
-};
+// document.getElementById("method").onchange = function () {
+//   var method = document.getElementById("method").value;
+//   console.log(method);
+//   if (method != "binary_partitioning") {
+//     document.getElementById("generation_config").onsubmit = function () {
+//       event.preventDefault();
+//       use_bp();
+//     };
+//   }
+// };

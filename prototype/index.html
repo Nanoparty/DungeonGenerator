@@ -30,6 +30,11 @@
             <input type="text" id="cols" name="cols" value="50" /><br /><br />
             <label for="size">grid size</label>
             <input type="text" id="size" name="size" value="8" /><br /><br />
+            <label for="method">grid size</label>
+            <select name="method" id="method">
+              <option value="random_placement">Random Placement</option>
+              <option value="binary_partitioning">Binary Partitioning</option>
+            </select>
           </div>
         </div>
 
@@ -138,7 +143,8 @@
       >
     </div>
 
-    <script type="module" src="script.js"></script>
+    <script src="random_placement.js"></script>
+    <script src="binary_partitioning.js"></script>
     <script></script>
   </body>
 </html>

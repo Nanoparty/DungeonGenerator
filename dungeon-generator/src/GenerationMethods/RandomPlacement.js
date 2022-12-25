@@ -1,3 +1,5 @@
+//import tile1 from "./tile1.png";
+
 const Tile = {
   Wall: 0,
   Floor: 1,
@@ -6,14 +8,40 @@ const Tile = {
 
 var Map = [];
 
-function createMap(rows, cols, size) {
+var img1 = new Image();
+img1.src = "tile1.png";
+// const LionImage = () => {
+//   const [image] = useImage("https://konvajs.org/assets/lion.png");
+//   return <Image image={image} />;
+// };
+
+function CreateMap(rows, cols, size) {
+  console.log("Creating Random Placement Dungeon");
+  // var img1 = new Image();
+  // img1.src = "tile1.png";
+
+  // img1.onload = function () {
+  //   console.log("Image loaded");
+  //   var canvas = document.getElementById("myCanvas");
+  //   var ctx = canvas.getContext("2d");
+  //   ctx.drawImage(img1, 0, 0, 100, 100);
+  //   console.log(img1);
+  // };
+
   Map = [];
-  var minRooms = parseInt(document.getElementById("min_rooms").value);
-  var maxRooms = parseInt(document.getElementById("max_rooms").value);
-  var minWidth = parseInt(document.getElementById("min_width").value);
-  var maxWidth = parseInt(document.getElementById("max_width").value);
-  var minHeight = parseInt(document.getElementById("min_height").value);
-  var maxHeight = parseInt(document.getElementById("max_height").value);
+  //   var minRooms = parseInt(document.getElementById("min_rooms").value);
+  //   var maxRooms = parseInt(document.getElementById("max_rooms").value);
+  //   var minWidth = parseInt(document.getElementById("min_width").value);
+  //   var maxWidth = parseInt(document.getElementById("max_width").value);
+  //   var minHeight = parseInt(document.getElementById("min_height").value);
+  //   var maxHeight = parseInt(document.getElementById("max_height").value);
+
+  var minRooms = 5;
+  var maxRooms = 10;
+  var minWidth = 5;
+  var maxWidth = 10;
+  var minHeight = 5;
+  var maxHeight = 10;
 
   console.log(
     `${minRooms}-${maxRooms}-${minWidth}-${maxWidth}-${minHeight}-${maxHeight}`
@@ -27,11 +55,12 @@ function createMap(rows, cols, size) {
     }
   }
 
-  console.log(Map);
+  //console.log(Map);
 
   var width = cols * size;
   var height = rows * size;
   drawGrid(width, height, "myCanvas", size);
+
   Generate(
     rows,
     cols,
@@ -52,23 +81,23 @@ var drawGrid = function (w, h, id, size) {
   ctx.canvas.height = h;
 
   var data = `<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"> \
-          <defs> \
-              <pattern id="smallGrid" width="${size}" height="${size}" patternUnits="userSpaceOnUse"> \
-                  <path d="M ${size} 0 L 0 0 0 ${size}" fill="none" stroke="gray" stroke-width="0.5" /> \
-              </pattern> \
-              <pattern id="grid" width="${size * 10}" height="${
+            <defs> \
+                <pattern id="smallGrid" width="${size}" height="${size}" patternUnits="userSpaceOnUse"> \
+                    <path d="M ${size} 0 L 0 0 0 ${size}" fill="none" stroke="gray" stroke-width="0.5" /> \
+                </pattern> \
+                <pattern id="grid" width="${size * 10}" height="${
     size * 10
   }" patternUnits="userSpaceOnUse"> \
-                  <rect width="${size * 10}" height="${
+                    <rect width="${size * 10}" height="${
     size * 10
   }" fill="url(#smallGrid)" /> \
-                  <path d="M ${size * 10} 0 L 0 0 0 ${
+                    <path d="M ${size * 10} 0 L 0 0 0 ${
     size * 10
   }" fill="none" stroke="gray" stroke-width="1" /> \
-              </pattern> \
-          </defs> \
-          <rect width="100%" height="100%" fill="url(#smallGrid)" /> \
-      </svg>`;
+                </pattern> \
+            </defs> \
+            <rect width="100%" height="100%" fill="url(#smallGrid)" /> \
+        </svg>`;
 
   var DOMURL = window.URL || window.webkitURL || window;
 
@@ -99,13 +128,14 @@ async function Generate(
   var rooms = [];
 
   for (let i = 0; i < roomCount; i++) {
-    roomWidth = Math.floor(Math.random() * (maxWidth - minWidth)) + minWidth;
+    var roomWidth =
+      Math.floor(Math.random() * (maxWidth - minWidth)) + minWidth;
     console.log(`Gen minWidth:${minHeight} maxWidth:${maxHeight}`);
-    roomHeight =
+    var roomHeight =
       Math.floor(Math.random() * (maxHeight - minHeight)) + minHeight;
     console.log("ROOM HEIGHT " + roomHeight);
-    col = Math.floor(Math.random() * (cols - roomWidth));
-    row = Math.floor(Math.random() * (rows - roomHeight));
+    var col = Math.floor(Math.random() * (cols - roomWidth));
+    var row = Math.floor(Math.random() * (rows - roomHeight));
 
     rooms.push({
       width: roomWidth,
@@ -178,6 +208,7 @@ async function GenerateHallways(rooms, size, color) {
           HallwayWalls(r, startingCol, "verticle", size);
           finishRow = r;
         }
+        HallwayWalls(finishRow + 1, startingCol, "verticle", size);
       } else {
         console.log("Going Down");
         for (var r = startingRow; r > startingRow - vDis; r--) {
@@ -186,6 +217,7 @@ async function GenerateHallways(rooms, size, color) {
           HallwayWalls(r, startingCol, "verticle", size);
           finishRow = r;
         }
+        HallwayWalls(finishRow - 1, startingCol, "verticle", size);
       }
 
       // Calculate Horizontal Hallway
@@ -215,6 +247,7 @@ async function GenerateHallways(rooms, size, color) {
           HallwayWalls(startingRow, c, "horizontal", size);
           finishCol = c;
         }
+        HallwayWalls(startingRow, finishCol + 1, "horizontal", size);
       } else {
         for (var c = startingCol; c > startingCol - hDis; c--) {
           Map[startingRow][c] = Tile.Floor;
@@ -222,6 +255,7 @@ async function GenerateHallways(rooms, size, color) {
           HallwayWalls(startingRow, c, "horizontal", size);
           finishCol = c;
         }
+        HallwayWalls(startingRow, finishCol - 1, "horizontal", size);
       }
 
       // Calculate Verticle Hallway
@@ -279,32 +313,25 @@ function HallwayWalls(row, col, dir, size) {
 }
 
 function drawRect(row, col, size, color) {
-  //console.log("Draw Rect:" + row + ":" + col);
   const canvas = document.getElementById("myCanvas");
   if (canvas.getContext) {
     const ctx = canvas.getContext("2d");
 
     var x = col * size;
     var y = row * size;
-    //console.log(y + ":" + x);
 
     ctx.fillStyle = color;
     ctx.fillRect(x, y, size, size);
+    DrawImage(x, y, size, size);
   }
 }
 
-require("./binary_partitioning.js");
+function DrawImage(x, y, width, height) {
+  var canvas = document.getElementById("myCanvas");
+  var ctx = canvas.getContext("2d");
+  ctx.drawImage(img1, x, y, width, height);
+}
 
-document.getElementById("generation_config").onsubmit = function () {
-  event.preventDefault();
+function ImageLoad(img, x, y, width, height) {}
 
-  var method = document.getElementById("method").value;
-  console.log(method);
-
-  if (method != "random_placement") return;
-
-  var rows = parseInt(document.getElementById("rows").value);
-  var cols = parseInt(document.getElementById("cols").value);
-  var size = parseInt(document.getElementById("size").value);
-  createMap(rows, cols, size);
-};
+export default CreateMap;
