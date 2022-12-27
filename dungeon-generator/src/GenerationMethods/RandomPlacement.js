@@ -1,4 +1,4 @@
-//import tile1 from "./tile1.png";
+import tile1 from "./tile1.png";
 
 const Tile = {
   Wall: 0,
@@ -9,24 +9,10 @@ const Tile = {
 var Map = [];
 
 var img1 = new Image();
-img1.src = "tile1.png";
-// const LionImage = () => {
-//   const [image] = useImage("https://konvajs.org/assets/lion.png");
-//   return <Image image={image} />;
-// };
+img1.src = tile1;
 
-function CreateMap(rows, cols, size) {
+async function CreateMap(rows, cols, size) {
   console.log("Creating Random Placement Dungeon");
-  // var img1 = new Image();
-  // img1.src = "tile1.png";
-
-  // img1.onload = function () {
-  //   console.log("Image loaded");
-  //   var canvas = document.getElementById("myCanvas");
-  //   var ctx = canvas.getContext("2d");
-  //   ctx.drawImage(img1, 0, 0, 100, 100);
-  //   console.log(img1);
-  // };
 
   Map = [];
   //   var minRooms = parseInt(document.getElementById("min_rooms").value);
@@ -43,10 +29,6 @@ function CreateMap(rows, cols, size) {
   var minHeight = 5;
   var maxHeight = 10;
 
-  console.log(
-    `${minRooms}-${maxRooms}-${minWidth}-${maxWidth}-${minHeight}-${maxHeight}`
-  );
-
   // Fill Map with void tiles
   for (var r = 0; r < rows; r++) {
     Map.push([]);
@@ -59,7 +41,7 @@ function CreateMap(rows, cols, size) {
 
   var width = cols * size;
   var height = rows * size;
-  drawGrid(width, height, "myCanvas", size);
+  await drawGrid(width, height, "myCanvas", size);
 
   Generate(
     rows,
@@ -74,7 +56,7 @@ function CreateMap(rows, cols, size) {
   );
 }
 
-var drawGrid = function (w, h, id, size) {
+function drawGrid(w, h, id, size) {
   var canvas = document.getElementById(id);
   var ctx = canvas.getContext("2d");
   ctx.canvas.width = w;
@@ -110,7 +92,19 @@ var drawGrid = function (w, h, id, size) {
     DOMURL.revokeObjectURL(url);
   };
   img.src = url;
-};
+
+  //waitForImage(img);
+}
+
+function waitForImage(imgElem) {
+  return new Promise((res) => {
+    if (imgElem.complete) {
+      return res();
+    }
+    imgElem.onload = () => res();
+    imgElem.onerror = () => res();
+  });
+}
 
 async function Generate(
   rows,
@@ -123,17 +117,14 @@ async function Generate(
   minHeight,
   maxHeight
 ) {
-  console.log(`Gen minWidth:${minWidth} maxWidth:${maxWidth}`);
   var roomCount = Math.floor(Math.random() * (maxRooms - minRooms)) + minRooms;
   var rooms = [];
 
   for (let i = 0; i < roomCount; i++) {
     var roomWidth =
       Math.floor(Math.random() * (maxWidth - minWidth)) + minWidth;
-    console.log(`Gen minWidth:${minHeight} maxWidth:${maxHeight}`);
     var roomHeight =
       Math.floor(Math.random() * (maxHeight - minHeight)) + minHeight;
-    console.log("ROOM HEIGHT " + roomHeight);
     var col = Math.floor(Math.random() * (cols - roomWidth));
     var row = Math.floor(Math.random() * (rows - roomHeight));
 
@@ -192,16 +183,10 @@ async function GenerateHallways(rooms, size, color) {
     var vDis = Math.abs(startingRow - endingRow);
     var hDis = Math.abs(startingCol - endingCol);
 
-    console.log(
-      `Hallway ${i}: from ${startingRow}:${startingCol} to ${endingRow}:${endingCol}`
-    );
-
     if (vDis > hDis) {
-      console.log("Verticle First");
       // Calculate Verticle Hallway
       var finishRow;
       if (startingRow < endingRow) {
-        console.log("Going Up");
         for (var r = startingRow; r < startingRow + vDis; r++) {
           Map[r][startingCol] = Tile.Floor;
           drawRect(r, startingCol, size, color);
@@ -210,7 +195,6 @@ async function GenerateHallways(rooms, size, color) {
         }
         HallwayWalls(finishRow + 1, startingCol, "verticle", size);
       } else {
-        console.log("Going Down");
         for (var r = startingRow; r > startingRow - vDis; r--) {
           Map[r][startingCol] = Tile.Floor;
           drawRect(r, startingCol, size, color);
@@ -222,14 +206,12 @@ async function GenerateHallways(rooms, size, color) {
 
       // Calculate Horizontal Hallway
       if (startingCol < endingCol) {
-        console.log("Going Right");
         for (var c = startingCol; c < startingCol + hDis; c++) {
           Map[finishRow][c] = Tile.Floor;
           drawRect(finishRow, c, size, color);
           HallwayWalls(finishRow, c, "horizontal", size);
         }
       } else {
-        console.log("Going Left");
         for (var c = startingCol; c > startingCol - hDis; c--) {
           Map[finishRow][c] = Tile.Floor;
           drawRect(finishRow, c, size, color);
@@ -237,7 +219,6 @@ async function GenerateHallways(rooms, size, color) {
         }
       }
     } else {
-      console.log("Horizontal First");
       // Calculate Horizontal Hallway
       var finishCol;
       if (startingCol < endingCol) {
@@ -322,7 +303,7 @@ function drawRect(row, col, size, color) {
 
     ctx.fillStyle = color;
     ctx.fillRect(x, y, size, size);
-    DrawImage(x, y, size, size);
+    //DrawImage(x, y, size, size);
   }
 }
 
@@ -331,7 +312,5 @@ function DrawImage(x, y, width, height) {
   var ctx = canvas.getContext("2d");
   ctx.drawImage(img1, x, y, width, height);
 }
-
-function ImageLoad(img, x, y, width, height) {}
 
 export default CreateMap;

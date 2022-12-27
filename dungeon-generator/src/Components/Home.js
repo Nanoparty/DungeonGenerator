@@ -12,7 +12,7 @@ function Home() {
         height="100px"
         style={{
           border: "1px solid #d3d3d3",
-          //backgroundColor: "aqua",
+          backgroundColor: "aqua",
           margin: "auto",
         }}
       >
